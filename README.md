@@ -2,6 +2,8 @@
 Graphical Interface for PureData Gem external
 
 Dependences: Gem ggee hcs list-abs zexy mrpeach moocow
+
+_videoMapper.pd_ is the main patch.
  
 This project is unfinished yet, but shared to get advices and maybe some help.
 
