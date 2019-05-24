@@ -1,5 +1,16 @@
 # vmap
 Graphical Interface for PureData Gem external
 
-Dependences: Gem ggee hcs list-abs zexy
+Dependences: Gem ggee hcs list-abs zexy mrpeach moocow
  
+This project is unfinished yet, but shared to get advices and maybe some help.
+
+ggee is needed for getting directory where the main patch resides
+hcs is needed for accessing tcl command line and using tk widgets
+list-abs maybe not necessary
+zexy is for converting symbols returned by tcl scripts into list
+mrpeach is used for resolving OSCx protocol
+moocow is converting into strings for the Gem*:text objects
+
+Since Gem 0.94 is not working good yet, this project uses Gem 0.93 and opens other instances of pd for rendering previews.
+Using multiple gemwin might be also usefull for drawing the interface instead using tcl-tk.
