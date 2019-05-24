@@ -1,0 +1,40 @@
+#N canvas 236 706 450 300 10;
+#X obj 27 77 s \$0texlabel;
+#X obj 14 13 loadbang;
+#X obj 104 101 hsl 80 19 1 1 0 0 empty empty empty -2 -8 0 10 -104025
+-1 -262144 100 1;
+#X obj 100 100 cnv 15 100 20 empty \$0texlabel tex-0 5 12 0 10 -208050
+-262144 0;
+#X obj 184 103 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 151 238 s STRUCT;
+#X msg 151 209 texture \$1 show;
+#X obj 151 188 list prepend \$2;
+#X obj 13 211 s \$1texguisel;
+#X obj 251 18 r \$1texguisel;
+#X obj 253 123 s \$0texlabel;
+#X msg 253 102 color \$1 \$2;
+#X msg 253 80 -1.31586e+07 0;
+#X msg 358 79 -6.5793e+06 -1;
+#X obj 28 35 \$2;
+#X obj 250 60 sel \$2;
+#X obj 14 160 b;
+#X obj 14 190 \$2;
+#X msg 27 56 label tex-\$1;
+#X connect 1 0 14 0;
+#X connect 1 0 16 0;
+#X connect 2 0 16 0;
+#X connect 4 0 7 0;
+#X connect 6 0 5 0;
+#X connect 7 0 6 0;
+#X connect 9 0 15 0;
+#X connect 11 0 10 0;
+#X connect 12 0 11 0;
+#X connect 13 0 11 0;
+#X connect 14 0 18 0;
+#X connect 15 0 12 0;
+#X connect 15 1 13 0;
+#X connect 16 0 17 0;
+#X connect 17 0 8 0;
+#X connect 18 0 0 0;
+#X coords 0 -1 1 1 100 20 2 100 100;

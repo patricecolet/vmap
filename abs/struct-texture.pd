@@ -1,0 +1,44 @@
+#N struct texture float id array tex tex-array;
+#N struct tex-array float id symbol name array media media-array float
+mediaID array fx fx-array float fxID;
+#N struct media-array float id array film film-array array texcoord
+texcoord-array;
+#N struct film-array float frame float start float end float auto float
+fps;
+#N struct texcoord-array float tlx float tly float trx float try float
+blx float bly float brx float bry;
+#N struct fx-array symbol name symbol folder float preset text presets
+array param fx-param float paramId;
+#N struct fx-param symbol name float id float type float value float
+ctl float min float max float incr float modulId float modulEnable
+;
+#N canvas 0 50 450 300 10;
+#N canvas 2 516 443 67 fx-template 0;
+#X obj 34 3 struct fx-array symbol name symbol folder float preset
+text presets array param fx-param float paramId;
+#X restore 9 84 pd fx-template;
+#N canvas 248 740 507 160 media-template 0;
+#X obj 78 22 struct media-array float id array film film-array array
+texcoord texcoord-array;
+#X obj 73 105 struct texcoord-array float tlx float tly float trx float
+try float blx float bly float brx float bry;
+#X obj 74 66 struct film-array float frame float start float end float
+auto float fps;
+#X restore 9 64 pd media-template;
+#N canvas 488 862 420 91 fx-param-template 0;
+#X obj 32 14 struct fx-param symbol name float id float type float
+value float ctl float min float max float incr float modulId float
+modulEnable;
+#X restore 9 104 pd fx-param-template;
+#N canvas 537 834 1099 243 texture-data 0;
+#X scalar texture 0 \; 0 texture000 0 0 \; 0 \; 0 0 0 0 0 \; \; 0 0
+0 0 0 0 0 0 \; \; \; nofx pix 0 0 \; \; symbol 0 0 0 0 0 0 0 0 0 \;
+\; \; \;;
+#X restore 9 1 pd texture-data;
+#N canvas 1268 295 408 104 tex-array-template 0;
+#X obj 11 12 struct tex-array float id symbol name array media media-array
+float mediaID array fx fx-array float fxID;
+#X restore 9 43 pd tex-array-template;
+#N canvas 0 50 457 124 texture-template 0;
+#X obj 104 56 struct texture float id array tex tex-array;
+#X restore 9 20 pd texture-template;

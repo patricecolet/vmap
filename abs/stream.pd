@@ -1,0 +1,17 @@
+#N canvas 1246 547 629 327 10;
+#X obj 77 296 s \$1MediaFoot;
+#X obj 77 70 route \$2;
+#X obj 77 270 pix_video;
+#X obj 77 47 r \$1MediaHead;
+#X obj 107 145 list prepend \$3 \$4 \$5 \$6;
+#X msg 107 165 dimen \$1 \$2 \, driver \$3 \, device \$4;
+#X obj 107 102 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 161 93 r \$1load;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 2 0;
+#X connect 6 0 4 0;
+#X connect 7 0 4 0;

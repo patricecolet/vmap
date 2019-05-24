@@ -1,0 +1,8 @@
+#N canvas 1326 755 297 322 10;
+#X obj 60 7 r \$1MediaHead;
+#X obj 117 255 s \$1MediaFoot;
+#X obj 77 87 route \$2;
+#X obj 117 149 pix_image \$3;
+#X connect 0 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;

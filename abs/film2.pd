@@ -1,0 +1,12 @@
+#N canvas 1328 757 297 322 10;
+#X obj 78 7 r \$1MediaHead;
+#X obj 117 255 s \$1MediaFoot;
+#X obj 180 110 r \$1Frame;
+#X obj 117 149 pix_film;
+#X obj 181 3 r \$1Play;
+#X msg 164 74 open \$1;
+#X connect 0 0 3 0;
+#X connect 2 0 3 1;
+#X connect 3 0 1 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;

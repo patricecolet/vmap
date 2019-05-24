@@ -1,0 +1,36 @@
+#N struct object float id array obj obj-array array geo geo-array;
+#N struct obj-array float id symbol name float parent float separator
+float matID float transId array transform transform-array float transID
+float geoID array surf surf-param symbol font text text;
+#N struct transform-array symbol name float x float y float z;
+#N struct surf-param symbol name float value float ctl float min float
+max float incr float type;
+#N struct geo-array float id symbol name;
+#N canvas 783 63 168 90 10;
+#N canvas 537 786 1099 243 object-data 0;
+#X scalar object 0 \; 0 object000 0 0 0 0 0 0 symbol \; symbol 0 0
+0 \; \; symbol 0 0 0 0 0 0 \; \; \; \; 0 circle \; 1 cone \; 2 cube
+\; 3 cylinder \; 4 disk \; 5 model \; 6 rectangle \; 7 recurseTex \;
+8 recursivePlane \; 9 sphere \; 10 square \; 11 text \; 12 text2D \;
+13 torus \; 14 triangle \; 15 tube \; \;;
+#X restore 8 8 pd object-data;
+#N canvas 457 324 369 88 object-template 0;
+#X obj 40 58 struct geo-array float id symbol name;
+#X obj 11 12 struct object float id array obj obj-array array geo geo-array
+;
+#X restore 8 30 pd object-template;
+#N canvas 1174 225 552 223 obj-array-template 0;
+#X obj 11 12 struct obj-array float id symbol name float parent float
+separator float matID float transId array transform transform-array
+float transID float geoID array surf surf-param symbol font text text
+;
+#X restore 8 51 pd obj-array-template;
+#N canvas 2 371 445 209 surf-param-template 0;
+#X text 34 50 type: 0 float \, 1 checkbox \, 2 menu;
+#X obj 27 15 struct surf-param symbol name float value float ctl float
+min float max float incr float type;
+#X restore 7 88 pd surf-param-template;
+#N canvas 2 371 445 209 transform-template 0;
+#X obj 27 15 struct transform-array symbol name float x float y float
+z;
+#X restore 6 70 pd transform-template;

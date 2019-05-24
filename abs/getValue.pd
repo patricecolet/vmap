@@ -1,0 +1,9 @@
+#N canvas 0 50 450 300 10;
+#X obj 145 117 inlet;
+#X obj 155 182 get \$1 value ctl;
+#X obj 166 216 +;
+#X obj 166 237 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 2 1;
+#X connect 2 0 3 0;
