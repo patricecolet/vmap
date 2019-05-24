@@ -1,0 +1,8 @@
+#N canvas 963 667 450 300 10;
+#X obj 105 232 namecanvas \$1FXgui;
+#X obj 104 51 r \$1FXarrayHEAD;
+#X obj 221 35 r \$1FXarrayTEX;
+#X obj 221 140 s \$1FXarrayTEX-s;
+#X obj 104 141 s \$1FXarrayPT-s;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
