@@ -1,0 +1,3 @@
+driver vlc;
+device screen://;
+dimen 512 512;

@@ -1,0 +1,4 @@
+driver vlc;
+dimen 720 576;
+device rtsp://mafreebox.freebox.fr/fbxtv_pub/stream?namespace=1&service=201&flavour=sd;
+
