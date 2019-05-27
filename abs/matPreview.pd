@@ -1,36 +1,6 @@
-#N struct media float id array m m-array;
-#N struct m-array float id symbol name float type symbol filename float
-width float height text mediaPrev array image image-array float length
-text video;
-#N struct image-array float id float bytes float colour-space float
-type float upsidedown float notowed;
-#N struct modul float id array mod mod-array;
-#N struct mod-array float id symbol name float lfo float freq float
-amp symbol waveshape symbol OSC text param text midi;
-#N struct texture float id array tex tex-array;
-#N struct tex-array float id symbol name array media media-array float
-mediaID array fx fx-array float fxID;
-#N struct media-array float id array film film-array array texcoord
-texcoord-array;
-#N struct film-array float frame float start float end float auto float
-fps;
-#N struct texcoord-array float tlx float tly float trx float try float
-blx float bly float brx float bry;
-#N struct fx-array symbol name symbol folder float preset text presets
-array param fx-param float paramId;
-#N struct fx-param symbol name float id float type float value float
-ctl float min float max float incr float modulId float modulEnable
-;
-#N struct material float id array mat mat-array;
-#N struct mat-array float id float texID symbol name float alphaBlend
-array alpha alpha-array array RGB rgb-param array RGBenable float;
-#N struct alpha-array float enable float auto float blend;
-#N struct rgb-param symbol name float r float g float b float a;
-#N struct float float y;
 #N canvas 1142 102 594 762 10;
 #X obj 31 170 gemhead;
 #N canvas 146 653 450 300 texViewFx 0;
-#X obj 100 100 fx/pix/nofx texView 0 1;
 #X restore 31 445 pd texViewFx;
 #X obj 31 405 list prepend 0;
 #X obj 32 465 r texViewFxHead;
@@ -88,7 +58,7 @@ array alpha alpha-array array RGB rgb-param array RGBenable float;
 #X obj 33 95 struct-material;
 #X restore 264 111 pd datastructure;
 #X obj 304 245 s media;
-#N canvas 308 50 450 393 readData 1;
+#N canvas 308 50 450 393 readData 0;
 #X obj 127 13 inlet;
 #X obj 155 143 getdir;
 #X obj 128 37 t b b;
@@ -118,7 +88,7 @@ array alpha alpha-array array RGB rgb-param array RGBenable float;
 #X obj 98 198 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 253 182 r modDone;
-#N canvas 1155 82 555 457 makeModul 0;
+#N canvas 1140 332 555 457 makeModul 0;
 #X obj 89 22 inlet;
 #X obj 254 229 list append;
 #X obj 89 43 t a a;
@@ -129,7 +99,6 @@ array alpha alpha-array array RGB rgb-param array RGBenable float;
 #X obj 190 115 r modulPt;
 #X obj 89 156 t p b;
 #N canvas 0 50 450 300 texViewModul 0;
-#X obj 100 100 modul 0;
 #X restore 305 332 pd texViewModul;
 #X obj 116 337 list append;
 #X obj 179 316 r texPt;
@@ -551,7 +520,7 @@ read \$1/../tmp/modul.data \; pd-texture-data read \$1/../tmp/texture.data
 #X obj 154 198 element material mat;
 #X obj 154 217 t p p;
 #X obj 182 236 s matPt;
-#N canvas 622 121 481 534 matArray 1;
+#N canvas 622 121 481 534 matArray 0;
 #X obj 177 9 inlet;
 #X obj 45 147 until;
 #X obj 45 168 f;
@@ -903,7 +872,6 @@ read \$1/../tmp/material.data;
 #X connect 1 0 0 0;
 #X restore 31 214 pd alpha;
 #N canvas 536 555 450 300 matView 0;
-#X obj 100 100 matRGB color 1 2;
 #X restore 31 303 pd matView;
 #X obj 31 425 s texViewFxHead;
 #X obj 31 281 s matViewHead;
