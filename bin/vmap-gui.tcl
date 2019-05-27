@@ -343,12 +343,14 @@ proc ::patco::vmap::draw {w filename} {
           }
 		}
         node {
+		  if  {[dropChecking $treewidget [lindex $lDrop 1] $data] == 1} {
       # "node" <node>
-      $treewidget move [lindex $lDrop 1] $data 0 
+          $treewidget move [lindex $lDrop 1] $data 0 }
         }
         position {
       # "position" <node> <index>
-      $treewidget move [lindex $lDrop 1] $data [lindex $lDrop 2]
+	    if {[dropChecking $treewidget [lindex $lDrop 1] $data] == 1} {
+      $treewidget move [lindex $lDrop 1] $data [lindex $lDrop 2] }
         }
         default {
             return -code error "DropCmd called with impossible wherelist."
@@ -358,12 +360,25 @@ proc ::patco::vmap::draw {w filename} {
     return 1
  }
 
- set __unique -1
- proc unique {} {
-   global __unique
-   return [incr __unique]
- }
-
+proc dropChecking {path dropped node} {
+    puts [list "dropChecking" $path $dropped $node]
+    if {$dropped == $node} {
+	    puts "wrong node"
+	    return 0
+		}
+	set parent [$path parent $dropped]
+	puts $parent
+    while 1 {
+	    if {$parent == $node} {
+		    return 0
+		    break}
+		if {$parent == "objects"} {
+		    return 1
+			break
+		}
+		set parent [$path parent $parent]
+	}	
+}
  proc ::patco::vmap::popupMenu {w x y o e} {
 	set item [$w itemcget $e -data]
 	global settings
