@@ -314,8 +314,9 @@ proc ::patco::vmap::draw {w filename} {
 	menu $w.transM -tearoff 0
 	menu $w.matM -tearoff 0
 	$objM add cascade -label Transform -menu $w.transM
-	$objM add checkbutton -label Separator -command [list pdsend "vmapgui-s obj separator"]
-	
+	set settings(objMenuSeparator) 0
+##	$objM add checkbutton -label Separator -command [list pdsend "vmapgui-s obj separator"] -variable settings(objMenuSeparator)
+	$objM add checkbutton -label Separator -command "::patco::vmap::sendvar obj separator Separator objMenu" -variable settings(objMenuSeparator)
 ##	 $objTree tag bind part1 <Button-1> "puts 'part1'"
 ###########################		
 ################ Map Panel 
@@ -361,13 +362,13 @@ proc ::patco::vmap::draw {w filename} {
  }
 
 proc dropChecking {path dropped node} {
-    puts [list "dropChecking" $path $dropped $node]
+##    puts [list "dropChecking" $path $dropped $node]
     if {$dropped == $node} {
 	    puts "wrong node"
 	    return 0
 		}
 	set parent [$path parent $dropped]
-	puts $parent
+##	puts $parent
     while 1 {
 	    if {$parent == $node} {
 		    return 0
@@ -382,19 +383,28 @@ proc dropChecking {path dropped node} {
  proc ::patco::vmap::popupMenu {w x y o e} {
 	set item [$w itemcget $e -data]
 	global settings
-	switch $item {
-		object {
-			tk_popup .vmapgui.objMenu $x $y
-			}
-		surface {
-			pdsend "vmapgui-s obj geo get $o"
-			tk_popup .vmapgui.surfM $x $y
-			}
-		material {
-			pdsend "vmapgui-s obj mat get $o"
-			tk_popup .vmapgui.matM $x $y
-			}
-		}
+
+#	pdsend "vmapgui-s obj get $o"	
+	puts $item
+
+	pdsend "objPopupMenu $item $x $y $o"		
+##	switch $item {
+	# TODO: menu button for adding objects
+		# root {
+			# tk_popup .vmapgui.objMenu $x $y
+			# }
+##		object {
+##			tk_popup .vmapgui.objMenu $x $y
+##			}
+##		surface {
+##			pdsend "vmapgui-s obj geo get $o"
+##			tk_popup .vmapgui.surfM $x $y
+##			}
+##		material {
+##			pdsend "vmapgui-s obj mat get $o"
+##			tk_popup .vmapgui.matM $x $y
+##			}
+##		}
 		
  }
 
