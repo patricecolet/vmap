@@ -38,7 +38,7 @@ type float upsidedown float notowed;
 #N struct modul float id array mod mod-array;
 #N struct mod-array float id symbol name float lfo float freq float
 amp symbol waveshape symbol OSC text param text midi;
-#N canvas 510 443 1002 427 10;
+#N canvas 510 443 1120 427 10;
 #X msg 11 182 lighting \$1;
 #X obj 11 163 tgl 15 0 empty empty empty 0 -6 0 8 -262144 -1 -1 0 1
 ;
@@ -1243,23 +1243,23 @@ test_platform $platform ];
 #X connect 50 0 49 0;
 #X coords 0 -1 1 1 102 120 2 100 100;
 #X restore 7 29 pd file;
-#N canvas 999 66 659 504 CreateObject 0;
-#X text 201 326 ---->;
-#X obj 101 150 cnv 15 100 260 empty empty empty 20 12 0 14 -262130
+#N canvas 999 66 659 504 CreateObject 1;
+#X text 201 340 ---->;
+#X obj 101 150 cnv 15 100 275 empty empty empty 20 12 0 14 -262130
 -66577 0;
-#X obj 101 356 cnv 15 100 20 empty empty Material 2 8 0 10 -1 -262144
+#X obj 101 370 cnv 15 100 20 empty empty Material 2 8 0 10 -1 -262144
 0;
-#X obj 101 339 cnv 5 100 15 empty geoName symbol 16 9 0 8 -66577 -262144
+#X obj 101 353 cnv 5 100 15 empty geoName tube 16 9 0 8 -66577 -262144
 0;
-#X obj 189 342 bng 12 250 50 0 objGeoRight empty > 3 6 0 10 -1 -262144
+#X obj 189 356 bng 12 250 50 0 objGeoRight empty > 3 6 0 10 -1 -262144
 -262144;
-#X obj 100 342 bng 12 250 50 0 objGeoLeft empty < 3 6 0 10 -1 -262144
+#X obj 100 356 bng 12 250 50 0 objGeoLeft empty < 3 6 0 10 -1 -262144
 -262144;
-#X obj 101 318 cnv 15 100 20 empty empty Surface 2 8 0 10 -1 -262144
+#X obj 101 332 cnv 15 100 20 empty empty Surface 2 8 0 10 -1 -262144
 0;
-#X obj 155 358 nbx 3 14 0 0 0 0 objMatID-s objMatID-r empty 0 -8 0
-8 -66577 -262144 -262144 0 256;
-#X obj 101 375 cnv 10 100 15 empty objMatName material000 15 8 0 8
+#X obj 155 372 nbx 3 14 0 3 0 0 objMatID-s objMatID-r empty 0 -8 0
+8 -66577 -262144 -262144 3 256;
+#X obj 101 389 cnv 10 100 15 empty objMatName material003 15 8 0 8
 -66577 -262144 0;
 #X obj 101 151 cnv 15 100 55 empty empty object_Panel 2 8 0 12 -1 -262144
 0;
@@ -1269,13 +1269,13 @@ test_platform $platform ];
 -1 -262144 0 1;
 #X obj 172 190 tgl 10 0 objViewPlay-s objViewPlay-r p 2 3 0 10 -99865
 -262144 -1 0 1;
-#X obj 101 392 cnv 5 100 18 empty empty empty 2 8 0 10 -1 -262144 0
+#X obj 101 406 cnv 5 100 18 empty empty empty 2 8 0 10 -1 -262144 0
 ;
-#X obj 110 396 bng 10 250 50 0 copyObj empty Copy 15 5 0 8 -262144
+#X obj 110 410 bng 10 250 50 0 copyObj empty Copy 15 5 0 8 -262144
 -1 -262144;
-#X obj 158 396 bng 10 250 50 0 pasteObj empty Paste 15 5 0 8 -262144
+#X obj 158 410 bng 10 250 50 0 pasteObj empty Paste 15 5 0 8 -262144
 -1 -262144;
-#X text 204 395 ---->;
+#X text 204 409 ---->;
 #N canvas 16 695 493 268 view 0;
 #X obj 70 65 gemhead;
 #X obj 70 45 t a a;
@@ -1334,7 +1334,7 @@ range 0 0 \;;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X restore 342 171 pd pdGUImessages;
-#X text 203 359 ---->;
+#X text 203 373 ---->;
 #X obj 190 190 tgl 10 0 objViewEdit-s objViewEdit-r e 2 3 0 10 -99865
 -262144 -1 0 1;
 #N canvas 142 729 450 300 copyPaste 0;
@@ -1575,7 +1575,7 @@ fps;
 #X connect 4 0 0 0;
 #X connect 5 0 4 0;
 #X connect 6 0 2 0;
-#X restore 248 394 pd copyPaste;
+#X restore 248 408 pd copyPaste;
 #N canvas 1367 355 405 514 surface 0;
 #X msg 46 211 label \$1;
 #X obj 191 47 t b p;
@@ -1856,13 +1856,13 @@ fps;
 #X connect 13 0 1 0;
 #X connect 14 0 6 1;
 #X connect 16 0 4 1;
-#X restore 245 325 pd surface;
+#X restore 245 339 pd surface;
 #X text 201 206 -------------------->;
-#X obj 189 377 bng 12 250 50 0 objMatRight empty > 3 6 0 10 -1 -262144
+#X obj 189 391 bng 12 250 50 0 objMatRight empty > 3 6 0 10 -1 -262144
 -262144;
-#X obj 100 377 bng 12 250 50 0 objMatLeft empty < 3 6 0 10 -1 -262144
+#X obj 100 391 bng 12 250 50 0 objMatLeft empty < 3 6 0 10 -1 -262144
 -262144;
-#X obj 188 358 bng 11 250 50 0 matParamOpen empty p 3 5 0 10 -1 -262144
+#X obj 188 372 bng 11 250 50 0 matParamOpen empty p 3 5 0 10 -1 -262144
 -262144;
 #X obj 344 201 abs/pt-manage object obj;
 #N canvas 1246 29 560 457 material 0;
@@ -1932,21 +1932,21 @@ fps;
 #X connect 14 0 4 1;
 #X connect 14 0 9 0;
 #X connect 16 0 3 1;
-#X restore 247 358 pd material;
-#X obj 101 280 cnv 15 100 20 empty empty Transf 2 8 0 10 -1 -262144
+#X restore 247 372 pd material;
+#X obj 101 294 cnv 15 100 20 empty empty Transf 2 8 0 10 -1 -262144
 0;
-#X obj 168 284 bng 15 250 50 0 addTrans empty + 4 7 0 10 -1 -262144
+#X obj 168 298 bng 15 250 50 0 addTrans empty + 4 7 0 10 -1 -262144
 -262144;
-#X obj 186 282 bng 15 250 50 0 removeTrans empty - 4 7 0 10 -1 -262144
+#X obj 186 296 bng 15 250 50 0 removeTrans empty - 4 7 0 10 -1 -262144
 -262144;
-#X obj 141 282 nbx 2 14 0 2 0 0 objTransID-s objTransID-r empty 0 -8
+#X obj 141 296 nbx 2 14 0 2 0 0 objTransID-s objTransID-r empty 0 -8
 0 8 -66577 -262144 -262144 0 256;
-#X text 203 283 ---->;
-#X obj 101 301 cnv 5 100 15 empty objTransName none 16 9 0 8 -66577
+#X text 203 297 ---->;
+#X obj 101 315 cnv 5 100 15 empty objTransName none 16 9 0 8 -66577
 -262144 0;
-#X obj 189 304 bng 12 250 50 0 objTransRight empty > 3 6 0 10 -1 -262144
+#X obj 189 318 bng 12 250 50 0 objTransRight empty > 3 6 0 10 -1 -262144
 -262144;
-#X obj 100 304 bng 12 250 50 0 objTransLeft empty < 3 6 0 10 -1 -262144
+#X obj 100 318 bng 12 250 50 0 objTransLeft empty < 3 6 0 10 -1 -262144
 -262144;
 #N canvas 291 423 545 517 objDefaultVal 0;
 #X obj 11 30 list split 1;
@@ -1980,8 +1980,8 @@ fps;
 #X connect 14 2 2 0;
 #X connect 14 2 9 0;
 #X restore 352 86 pd objDefaultVal;
-#N canvas 1043 105 626 408 transform 0;
-#N canvas 212 618 327 279 selector 0;
+#N canvas 1043 105 626 408 transform 1;
+#N canvas 212 618 327 260 selector 1;
 #X obj 259 13 inlet;
 #X obj 57 139 mod;
 #X obj 94 77 + 1;
@@ -2118,17 +2118,17 @@ shearYX shearYZ shearZX shearZY;
 #X connect 11 0 5 0;
 #X connect 12 0 8 1;
 #X connect 18 0 16 0;
-#X restore 246 282 pd transform;
+#X restore 246 296 pd transform;
 #X obj 101 208 abs/chooseElement obj;
 #X obj 110 28 abs/struct-object;
-#X obj 100 250 cnv 15 100 18 empty empty Parent 2 6 0 10 -1 -262144
+#X obj 100 264 cnv 15 100 18 empty empty Parent 2 6 0 10 -1 -262144
 0;
-#X text 202 251 ---->;
-#X obj 100 263 cnv 5 100 15 empty objParentName none 16 9 0 8 -66577
+#X text 202 265 ---->;
+#X obj 100 277 cnv 5 100 15 empty objParentName none 16 9 0 8 -66577
 -262144 0;
-#X obj 188 264 bng 12 250 50 0 objParentRight empty > 3 6 0 10 -1 -262144
+#X obj 188 278 bng 12 250 50 0 objParentRight empty > 3 6 0 10 -1 -262144
 -262144;
-#X obj 100 264 bng 12 250 50 0 objParentLeft empty < 3 6 0 10 -1 -262144
+#X obj 100 278 bng 12 250 50 0 objParentLeft empty < 3 6 0 10 -1 -262144
 -262144;
 #N canvas 0 50 450 300 parent 0;
 #N canvas 489 153 496 486 selector 0;
@@ -2178,8 +2178,25 @@ shearYX shearYZ shearZX shearZY;
 #X connect 0 0 1 0;
 #X connect 0 1 3 0;
 #X connect 2 0 3 1;
-#X restore 246 249 pd parent;
-#X coords 0 -1 1 1 102 260 2 100 150;
+#X restore 246 263 pd parent;
+#X obj 101 248 tgl 15 0 objSeparator-s objSeparator-r Separator 17
+7 0 10 -262144 -1 -1 0 1;
+#N canvas 422 565 450 300 separator 0;
+#X obj 58 39 r objSeparator-s;
+#X obj 27 65 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 223 37 r objPt;
+#X obj 87 139 set obj-array separator;
+#X obj 246 142 get obj-array separator;
+#X obj 244 190 s objSeparator-r;
+#X connect 0 0 1 0;
+#X connect 0 0 3 0;
+#X connect 2 0 3 1;
+#X connect 2 0 4 0;
+#X connect 4 0 5 0;
+#X restore 244 241 pd separator;
+#X text 202 244 ---->;
+#X coords 0 -1 1 1 102 275 2 100 150;
 #X restore 449 138 pd CreateObject;
 #N canvas 2 269 609 422 scene 0;
 #N canvas 139 895 1027 182 scene-data 0;
@@ -5454,7 +5471,7 @@ float Sl symbol name float set float stretch array coord cadre-coord
 #X connect 62 1 34 0;
 #X coords 0 -1 1 1 675 90 1 50 30;
 #X restore 122 27 pd cadres;
-#N canvas 1235 210 289 90 GUI_callbacks 0;
+#N canvas 1235 210 289 135 GUI_callbacks 1;
 #X obj 11 15 abs/SYS_GUI_callbacks;
 #X restore 14 297 pd GUI_callbacks;
 #N canvas 1139 440 672 408 createTexture 0;
@@ -7034,25 +7051,25 @@ matID-r range 0 0 \; matRgbHide vis_size 99 37 \; matRgbEnable-r set
 #X obj 102 291 cnv 15 100 50 empty empty Enable 2 8 0 10 -1 -262144
 0;
 #X text 200 305 ---->;
-#X obj 102 308 cnv 10 100 15 empty matRgbName ambient 15 8 0 8 -66577
+#X obj 102 308 cnv 10 100 15 empty matRgbName color 15 8 0 8 -66577
 -262144 0;
 #X obj 189 312 bng 12 250 50 0 matRgbRight empty > 3 6 0 10 -1 -262144
 -262144;
 #X obj 102 312 bng 12 250 50 0 matRgbLeft empty < 3 6 0 10 -1 -262144
 -262144;
 #X obj 102 324 nbx 3 14 0 1 0 0 matR-s matR-r empty 0 -8 0 7 -33289
--258113 -1 0 256;
+-258113 -1 0.561 256;
 #X obj 125 324 nbx 3 14 0 1 0 0 matG-s matG-r empty 0 -8 0 7 -33289
 -4034 -1 0 256;
 #X obj 149 324 nbx 3 14 0 1 0 0 matB-s matB-r empty 0 -8 0 7 -33289
 -4032 -1 0 256;
 #X obj 173 324 nbx 3 14 0 1 0 0 matA-s matA-r empty 0 -8 0 7 -66577
--262144 -262144 0 256;
-#X obj 103 344 cnv 16 96 16 empty matRgbCnv empty 20 12 0 14 -124256
+-262144 -262144 1 256;
+#X obj 103 344 cnv 16 96 16 empty matRgbCnv empty 20 12 0 14 -143361
 -262144 0;
 #X obj 178 293 tgl 12 0 matRgbEnable-s matRgbEnable-r empty 17 7 0
-10 -99865 -262144 -228856 0 1;
-#X obj 102 324 cnv 1 99 37 empty matRgbHide empty 20 12 0 14 -1 -262144
+10 -99865 -262144 -228856 1 1;
+#X obj 102 324 cnv 1 99 1 empty matRgbHide empty 20 12 0 14 -1 -262144
 0;
 #N canvas 474 554 464 341 matDefaultVal 0;
 #X obj 11 11 r matDefault;
@@ -7867,7 +7884,7 @@ range 0 0 \;;
 #X obj 352 63 abs/struct-media;
 #X coords 0 -1 1 1 102 99 2 100 150;
 #X restore 122 140 pd createMedia;
-#X text 689 224 add media stream;
+#X text 690 249 add media stream;
 #N canvas 801 438 493 406 createMedia 0;
 #X obj 101 150 cnv 15 100 100 empty empty empty 20 12 0 14 -261682
 -66577 0;
@@ -8341,13 +8358,16 @@ range 0 0 \;;
 #X restore 246 272 pd param;
 #X coords 0 -1 1 1 102 101 1 100 150;
 #X restore 122 242 pd createMedia;
-#X text 683 271 add rectangle and alpha enabling in fx;
-#X text 682 295 remove alpha array;
+#X text 684 296 add rectangle and alpha enabling in fx;
+#X text 683 320 remove alpha array;
 #X text 686 177 media update in preview;
-#X text 684 247 open multiple media files at once drag'n'drop;
-#X text 684 203 fix media cursor;
-#X text 683 323 add worldlight to rendering window;
-#X text 742 139 finish object panel;
+#X text 685 272 open multiple media files at once drag'n'drop;
+#X text 685 228 fix media cursor;
+#X text 742 139 finish object panel: parent setting when moving object
+and transform array in object struct;
+#X text 692 203 fx and mod update in preview;
+#X text 684 348 add worldlight to material preview;
+#X text 684 376 add title to preview's gemwin;
 #X connect 0 0 2 0;
 #X connect 1 0 0 0;
 #X connect 12 0 13 0;
