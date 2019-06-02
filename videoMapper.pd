@@ -1,4 +1,5 @@
-#N struct object float id array obj obj-array array geo geo-array;
+#N struct object float id array obj obj-array array geo geo-array array
+transform transform-list;
 #N struct obj-array float id symbol name float parent float separator
 float matID float transId array transform transform-array float transID
 float geoID array surf surf-param symbol font text text;
@@ -6,6 +7,7 @@ float geoID array surf surf-param symbol font text text;
 #N struct surf-param symbol name float value float ctl float min float
 max float incr float type;
 #N struct geo-array float id symbol name;
+#N struct transform-list float id symbol name;
 #N struct cadre float id float y float St float Sr float Sb float Sl
 symbol name float set float stretch array coord cadre-coord;
 #N struct cadre-coord symbol name float X float Y;
@@ -1243,13 +1245,13 @@ test_platform $platform ];
 #X connect 50 0 49 0;
 #X coords 0 -1 1 1 102 120 2 100 100;
 #X restore 7 29 pd file;
-#N canvas 999 66 659 504 CreateObject 1;
+#N canvas 387 45 659 504 CreateObject 0;
 #X text 201 340 ---->;
 #X obj 101 150 cnv 15 100 275 empty empty empty 20 12 0 14 -262130
 -66577 0;
 #X obj 101 370 cnv 15 100 20 empty empty Material 2 8 0 10 -1 -262144
 0;
-#X obj 101 353 cnv 5 100 15 empty geoName tube 16 9 0 8 -66577 -262144
+#X obj 101 353 cnv 5 100 15 empty geoName square 16 9 0 8 -66577 -262144
 0;
 #X obj 189 356 bng 12 250 50 0 objGeoRight empty > 3 6 0 10 -1 -262144
 -262144;
@@ -1257,9 +1259,9 @@ test_platform $platform ];
 -262144;
 #X obj 101 332 cnv 15 100 20 empty empty Surface 2 8 0 10 -1 -262144
 0;
-#X obj 155 372 nbx 3 14 0 3 0 0 objMatID-s objMatID-r empty 0 -8 0
-8 -66577 -262144 -262144 3 256;
-#X obj 101 389 cnv 10 100 15 empty objMatName material003 15 8 0 8
+#X obj 155 372 nbx 3 14 0 0 0 0 objMatID-s objMatID-r empty 0 -8 0
+8 -66577 -262144 -262144 0 256;
+#X obj 101 389 cnv 10 100 15 empty objMatName material000 15 8 0 8
 -66577 -262144 0;
 #X obj 101 151 cnv 15 100 55 empty empty object_Panel 2 8 0 12 -1 -262144
 0;
@@ -1580,7 +1582,7 @@ fps;
 #X msg 46 211 label \$1;
 #X obj 191 47 t b p;
 #X obj 20 292 t b a;
-#N canvas 212 422 343 241 selector 0;
+#N canvas 212 422 343 222 selector 0;
 #X obj 272 28 inlet;
 #X obj 57 139 mod;
 #X obj 94 77 + 1;
@@ -1701,7 +1703,6 @@ fps;
 #X connect 16 1 6 0;
 #X connect 17 0 0 0;
 #X connect 19 0 18 0;
-#X connect 20 0 22 0;
 #X connect 20 1 7 0;
 #X connect 21 0 22 1;
 #X connect 22 0 23 0;
@@ -1980,45 +1981,36 @@ fps;
 #X connect 14 2 2 0;
 #X connect 14 2 9 0;
 #X restore 352 86 pd objDefaultVal;
-#N canvas 1043 105 626 408 transform 1;
-#N canvas 212 618 327 260 selector 1;
+#N canvas 1043 105 626 408 transform 0;
+#N canvas 595 518 327 261 selector 0;
 #X obj 259 13 inlet;
 #X obj 57 139 mod;
 #X obj 94 77 + 1;
 #X obj 20 48 f;
 #X obj 121 77 f;
 #X obj 21 74 - 1;
-#X obj 74 185 list;
-#X obj 75 205 list split 1;
-#X obj 158 76 list length;
-#X obj 109 224 list split 1;
-#X obj 253 50 t a a;
-#X obj 57 158 t b a;
-#X obj 109 243 outlet;
 #X obj 22 17 r objTransLeft;
 #X obj 140 20 r objTransRight;
-#X connect 0 0 10 0;
+#X obj 197 94 r objTransformID-r;
+#X obj 56 175 element object transform, f 10;
+#X obj 113 155 r objectPt;
+#X obj 56 218 get transform-list name;
+#X obj 56 238 outlet;
+#X connect 0 0 1 1;
 #X connect 1 0 4 1;
 #X connect 1 0 3 1;
-#X connect 1 0 11 0;
+#X connect 1 0 9 0;
 #X connect 2 0 1 0;
 #X connect 3 0 5 0;
 #X connect 4 0 2 0;
 #X connect 5 0 1 0;
-#X connect 6 0 7 0;
-#X connect 7 1 9 0;
-#X connect 8 0 1 1;
-#X connect 9 0 12 0;
-#X connect 10 0 8 0;
-#X connect 10 1 6 1;
-#X connect 11 0 6 0;
-#X connect 11 1 7 1;
-#X connect 13 0 3 0;
-#X connect 14 0 4 0;
+#X connect 6 0 3 0;
+#X connect 7 0 4 0;
+#X connect 8 0 1 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 1;
+#X connect 11 0 12 0;
 #X restore 52 66 pd selector;
-#X obj 52 16 loadbang;
-#X msg 52 36 none accumrotate rotate translate scale shearXY shearXZ
-shearYX shearYZ shearZX shearZY;
 #X msg 79 198 label \$1;
 #X obj 79 219 s objTransName;
 #X obj 209 97 t b p;
@@ -2099,25 +2091,109 @@ shearYX shearYZ shearZX shearZY;
 #X connect 4 0 6 0;
 #X restore 519 37 pd ID;
 #X obj 450 36 r addTrans;
-#X connect 0 0 3 0;
-#X connect 0 0 6 0;
+#N canvas 0 50 426 520 setTransformArray 0;
+#X obj 20 11 r objectPt;
+#X obj 20 30 t b p, f 32;
+#X msg 150 166 0;
+#X obj 20 199 t a b;
+#X obj 47 221 f;
+#X obj 75 221 + 1;
+#X obj 270 417 outlet;
+#X obj 270 189 list length;
+#X obj 20 132 t a a, f 33;
+#N canvas 0 50 450 300 list-drip 0;
+#X obj 63 84 t a a;
+#X obj 63 241 spigot;
+#X obj 102 149 bang;
+#X obj 102 168 1;
+#X obj 223 149 route bang;
+#X obj 183 150 bang;
+#X obj 183 169 0;
+#X obj 102 114 list split 2;
+#X obj 232 379 list split;
+#X obj 299 328 list length;
+#X obj 299 350 >> 1;
+#X obj 63 260 t a a a a;
+#X obj 63 446 list split;
+#X obj 130 398 list length;
+#X obj 130 423 >> 1;
+#X obj 31 19 inlet;
+#X obj 290 175 outlet;
+#X text 73 19 Copyright 2009 by Mathieu Bouchard;
+#X obj 31 53 t b a;
+#X obj 465 119 outlet;
+#X text 520 121 signal end of list;
+#X text 381 23 made compatible with [list-drip]: fbar 2009;
+#X connect 0 0 1 0;
+#X connect 0 1 7 0;
+#X connect 1 0 11 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 1;
+#X connect 4 1 16 0;
+#X connect 5 0 6 0;
+#X connect 6 0 1 1;
+#X connect 7 0 2 0;
+#X connect 7 2 4 0;
+#X connect 7 2 5 0;
+#X connect 8 0 0 0;
+#X connect 9 0 10 0;
+#X connect 10 0 8 1;
+#X connect 11 0 12 0;
+#X connect 11 1 13 0;
+#X connect 11 2 8 0;
+#X connect 11 3 9 0;
+#X connect 12 1 0 0;
+#X connect 13 0 14 0;
+#X connect 14 0 12 1;
+#X connect 15 0 18 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
+#X restore 20 152 pd list-drip;
+#X msg 20 50 none accumrotate rotate translate scale shearXY shearXZ
+shearYX shearYZ shearZX shearZY, f 24;
+#X obj 173 254 element object transform, f 10;
+#X obj 332 219 setsize object transform, f 9;
+#X obj 20 336 set -symbol transform-list name;
+#X obj 47 317 set transform-list id;
+#X connect 0 0 1 0;
+#X connect 1 0 10 0;
+#X connect 1 1 11 1;
+#X connect 1 1 12 1;
+#X connect 2 0 4 1;
+#X connect 3 0 13 0;
+#X connect 3 1 4 0;
+#X connect 4 0 5 0;
+#X connect 4 0 11 0;
+#X connect 4 0 14 0;
+#X connect 5 0 4 1;
+#X connect 7 0 6 0;
+#X connect 7 0 12 0;
+#X connect 8 0 9 0;
+#X connect 8 1 7 0;
+#X connect 8 1 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 8 0;
+#X connect 11 0 13 1;
+#X connect 11 0 14 1;
+#X restore 52 30 pd setTransformArray;
+#X connect 0 0 4 0;
+#X connect 0 0 1 0;
 #X connect 1 0 2 0;
-#X connect 2 0 0 0;
-#X connect 3 0 4 0;
-#X connect 5 0 8 0;
-#X connect 5 1 12 0;
-#X connect 5 1 13 1;
-#X connect 6 0 7 0;
-#X connect 6 1 13 0;
-#X connect 6 1 14 0;
-#X connect 7 0 9 0;
-#X connect 8 0 3 0;
-#X connect 8 0 13 0;
-#X connect 8 0 14 0;
-#X connect 10 0 7 1;
-#X connect 11 0 5 0;
-#X connect 12 0 8 1;
-#X connect 18 0 16 0;
+#X connect 3 0 6 0;
+#X connect 3 1 10 0;
+#X connect 3 1 11 1;
+#X connect 4 0 5 0;
+#X connect 4 1 11 0;
+#X connect 4 1 12 0;
+#X connect 5 0 7 0;
+#X connect 6 0 1 0;
+#X connect 6 0 11 0;
+#X connect 6 0 12 0;
+#X connect 8 0 5 1;
+#X connect 9 0 3 0;
+#X connect 10 0 6 1;
+#X connect 16 0 14 0;
+#X connect 17 0 0 0;
 #X restore 246 296 pd transform;
 #X obj 101 208 abs/chooseElement obj;
 #X obj 110 28 abs/struct-object;
@@ -5471,7 +5547,7 @@ float Sl symbol name float set float stretch array coord cadre-coord
 #X connect 62 1 34 0;
 #X coords 0 -1 1 1 675 90 1 50 30;
 #X restore 122 27 pd cadres;
-#N canvas 1235 210 289 135 GUI_callbacks 1;
+#N canvas 1235 210 289 59 GUI_callbacks 1;
 #X obj 11 15 abs/SYS_GUI_callbacks;
 #X restore 14 297 pd GUI_callbacks;
 #N canvas 1139 440 672 408 createTexture 0;
@@ -7058,18 +7134,18 @@ matID-r range 0 0 \; matRgbHide vis_size 99 37 \; matRgbEnable-r set
 #X obj 102 312 bng 12 250 50 0 matRgbLeft empty < 3 6 0 10 -1 -262144
 -262144;
 #X obj 102 324 nbx 3 14 0 1 0 0 matR-s matR-r empty 0 -8 0 7 -33289
--258113 -1 0.561 256;
+-258113 -1 0 256;
 #X obj 125 324 nbx 3 14 0 1 0 0 matG-s matG-r empty 0 -8 0 7 -33289
 -4034 -1 0 256;
 #X obj 149 324 nbx 3 14 0 1 0 0 matB-s matB-r empty 0 -8 0 7 -33289
 -4032 -1 0 256;
 #X obj 173 324 nbx 3 14 0 1 0 0 matA-s matA-r empty 0 -8 0 7 -66577
--262144 -262144 1 256;
+-262144 -262144 0 256;
 #X obj 103 344 cnv 16 96 16 empty matRgbCnv empty 20 12 0 14 -143361
 -262144 0;
 #X obj 178 293 tgl 12 0 matRgbEnable-s matRgbEnable-r empty 17 7 0
-10 -99865 -262144 -228856 1 1;
-#X obj 102 324 cnv 1 99 1 empty matRgbHide empty 20 12 0 14 -1 -262144
+10 -99865 -262144 -228856 0 1;
+#X obj 102 324 cnv 1 99 37 empty matRgbHide empty 20 12 0 14 -1 -262144
 0;
 #N canvas 474 554 464 341 matDefaultVal 0;
 #X obj 11 11 r matDefault;
@@ -8363,11 +8439,11 @@ range 0 0 \;;
 #X text 686 177 media update in preview;
 #X text 685 272 open multiple media files at once drag'n'drop;
 #X text 685 228 fix media cursor;
-#X text 742 139 finish object panel: parent setting when moving object
-and transform array in object struct;
 #X text 692 203 fx and mod update in preview;
 #X text 684 348 add worldlight to material preview;
 #X text 684 376 add title to preview's gemwin;
+#X text 742 139 finish object panel: parent setting when moving object
+and transform moving;
 #X connect 0 0 2 0;
 #X connect 1 0 0 0;
 #X connect 12 0 13 0;
