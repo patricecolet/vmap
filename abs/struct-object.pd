@@ -1,7 +1,26 @@
-#N canvas 783 63 168 71 10;
-#N canvas 537 786 1099 243 object-data 0;
+#N struct object float id array obj obj-array array geo geo-array array
+transform transform-list;
+#N struct obj-array float id symbol name float parent float separator
+float matID float transId array transform transform-array float transID
+float geoID array surf surf-param symbol font text text;
+#N struct transform-array symbol name float x float y float z;
+#N struct surf-param symbol name float value float ctl float min float
+max float incr float type;
+#N struct geo-array float id symbol name;
+#N struct transform-list float id symbol name;
+#N canvas 783 63 168 100 10;
+#N canvas 362 399 1099 243 object-data 0;
+#X scalar object 0 \; 0 object000 0 0 0 0 0 10 symbol \; none 0 0 0
+\; float 0 0 0 \; translate 0 0 0 \; translate 0 0 0 \; shearXY 0 0
+0 \; accumrotate 0 0 0 \; \; symbol 0 0 0 0 0 0 \; \; \; \; 0 circle
+\; 1 cone \; 2 cube \; 3 cylinder \; 4 disk \; 5 model \; 6 rectangle
+\; 7 recurseTex \; 8 recursivePlane \; 9 sphere \; 10 square \; 11
+text \; 12 text2D \; 13 torus \; 14 triangle \; 15 tube \; \; 0 none
+\; 1 accumrotate \; 2 rotate \; 3 translate \; 4 scale \; 5 shearXY
+\; 6 shearXZ \; 7 shearYX \; 8 shearYZ \; 9 shearZX \; 10 shearZY \;
+\;;
 #X restore 8 8 pd object-data;
-#N canvas 457 324 371 138 object-template 1;
+#N canvas 457 324 371 138 object-template 0;
 #X obj 40 58 struct geo-array float id symbol name;
 #X obj 11 12 struct object float id array obj obj-array array geo geo-array
 array transform transform-list;
@@ -18,7 +37,7 @@ float transID float geoID array surf surf-param symbol font text text
 #X obj 27 15 struct surf-param symbol name float value float ctl float
 min float max float incr float type;
 #X restore 7 88 pd surf-param-template;
-#N canvas 2 371 445 209 transform-template 0;
+#N canvas 2 371 445 209 transform-template 1;
 #X obj 27 15 struct transform-array symbol name float x float y float
 z;
 #X restore 6 70 pd transform-template;
