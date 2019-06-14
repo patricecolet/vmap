@@ -187,7 +187,7 @@ proc ::patco::vmap::draw {w filename} {
 	    media {media "Media" 1 20}
 	    tex {set "Texture" 0  10 media "Media" 1 20 fx "Texture Effect" 3 300}
 	    mat {set "Material" 0  10 param "Parameter" 1 200 tex "Texture" 2 50}  
-		obj {set "Object" 0  10 tree "Tree" 1 600} 
+		obj {set "Object" 0  10 tree "Tree" 1 100 geo "Surface" 2 100 trans "Transform" 3 100} 
 		scn {set "Scene" 0  10 maps "Maps" 1  10 obj "Object" 2 220 \
 		 lights "Lights" 3 10 keyframes "Keyframes" 4 200} 
 		map {set "Map"  0  10 vert "Vertex Position" 1 20 shade "Shader size" 2 220}
@@ -297,6 +297,7 @@ proc ::patco::vmap::draw {w filename} {
 	set objTree [Tree $object.view -dropenabled 1 -dragenabled 1 -dragevent 1 -dropcmd dropTreeCmd  -droptypes { 
         TREE_NODE    {copy {} move {} link {}} 
     } -height 25 -width 30 ]
+	$objTree bindArea <KeyPress> "treeKeyBind %K"
    	set othScroll $object.hscroll
    	set otvScroll $object.vscroll
   	scrollbar $othScroll -orient horiz -command "$objTree xview"
@@ -306,18 +307,22 @@ proc ::patco::vmap::draw {w filename} {
 	grid $otvScroll -sticky news  -column 1 -row 0
 	grid $othScroll -sticky news -column 0 -row 1 -columnspan 2 
 	
-##    $objTree heading #0 -text "part"
-##	bind $objTree  <Button-1> "puts 'object001'"
-##	set objTitle [$objTree insert end root objects -text "Objects"]
 	set objM [menu $w.objMenu -tearoff 0]
 	menu $w.surfM -tearoff 0
 	menu $w.transM -tearoff 0
 	menu $w.matM -tearoff 0
 	$objM add cascade -label Transform -menu $w.transM
 	set settings(objMenuSeparator) 0
-##	$objM add checkbutton -label Separator -command [list pdsend "vmapgui-s obj separator"] -variable settings(objMenuSeparator)
+
 	$objM add checkbutton -label Separator -command "::patco::vmap::sendvar obj separator Separator objMenu" -variable settings(objMenuSeparator)
-##	 $objTree tag bind part1 <Button-1> "puts 'part1'"
+## Object surface
+
+	set objGeo $w.n.obj.pw.geo
+	grid [ttk::label $objGeo.label -text "none"]
+	ttk::labelframe $objGeo.param
+	
+## Object Transform
+#    grid $w.n.obj.pw.trans	
 ###########################		
 ################ Map Panel 
 ###########################
@@ -331,12 +336,25 @@ proc ::patco::vmap::draw {w filename} {
 }
 
 #############################################################
-## Procedures used by widgets and pd patch
-
+## Procedures used by widgets and pd callback patch
+ proc treeKeyBind {t} {
+    set objTree .vmapgui.n.obj.pw.tree.view
+    set d [lindex [$objTree selection get] 0] 
+	set s [$objTree itemcget $d -data]
+	pdsend "vmapgui-s object bind $t $s"
+    puts [list $t $s]
+} 
  proc dropTreeCmd {treewidget drag_source lDrop op dataType data} {
-    puts [list $treewidget $drag_source $lDrop $op $dataType $data]
-	if {[$treewidget itemcget $data -data] == "object" && [$treewidget itemcget [lindex $lDrop 1] -data] == "object"} {
-     switch [lindex $lDrop 0] {
+	set mode [lindex $lDrop 0]
+	set dest [lindex $lDrop 1]
+	set drop [lindex $lDrop 2]
+    set item [lindex [$treewidget itemcget $data -data] 0]
+    set itemNode [lindex [$treewidget itemcget $data -data] 2]
+	set node [lindex [$treewidget itemcget $dest -data] 0]
+    puts [$treewidget itemcget $dest -data]
+	if {$item == "object" || $item == "transform"} { 
+      if { $node == "object" || $node == "root"} {
+     switch $mode {
         widget {
       # "widget"
 	  if {$op == "copy"} {
@@ -344,41 +362,55 @@ proc ::patco::vmap::draw {w filename} {
           }
 		}
         node {
-		  if  {[dropChecking $treewidget [lindex $lDrop 1] $data] == 1} {
+		  if  {[dropChecking $treewidget $dest $data] == 1} {
       # "node" <node>
-          $treewidget move [lindex $lDrop 1] $data 0 }
+          $treewidget move $dest $data end
+		  pdsend "vmapgui-s obj move $data $dest " }
         }
         position {
       # "position" <node> <index>
-	    if {[dropChecking $treewidget [lindex $lDrop 1] $data] == 1} {
-      $treewidget move [lindex $lDrop 1] $data [lindex $lDrop 2] }
+	      switch $item {
+		    transform {
+		      puts "move transform"
+		      pdsend "vmapgui-s obj move transform $dest $itemNode $drop"
+		    }
+		    object {
+	          if {[dropChecking $treewidget $dest $data]} {
+		        puts [list $dest $data $drop]
+                $treewidget move $dest $data $drop 
+		        pdsend "vmapgui-s obj move $dest $data"
+			  }
+			}
+		  }
         }
         default {
             return -code error "DropCmd called with impossible wherelist."
         }
-     }
+     }}
 	}
     return 1
  }
 
 proc dropChecking {path dropped node} {
-##    puts [list "dropChecking" $path $dropped $node]
+    puts [list "dropChecking" $path $dropped $node]
     if {$dropped == $node} {
 	    puts "wrong node"
 	    return 0
 		}
 	set parent [$path parent $dropped]
-##	puts $parent
+	puts $parent
     while 1 {
 	    if {$parent == $node} {
 		    return 0
-		    break}
-		if {$parent == "objects"} {
+		    }
+		if {$parent == "objects" || $parent == "root"} {
+			# puts "move"
 		    return 1
-			break
+			# break
 		}
 		set parent [$path parent $parent]
-	}	
+	}
+	
 }
  proc ::patco::vmap::popupMenu {w x y o e} {
 	set item [$w itemcget $e -data]
