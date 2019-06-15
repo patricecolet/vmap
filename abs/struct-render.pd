@@ -1,0 +1,21 @@
+#N canvas 866 172 450 300 10;
+#N canvas 537 834 1099 243 render-data 0;
+#X restore 9 1 pd render-data;
+#N canvas 0 50 457 124 render-template 0;
+#X obj 104 56 struct render float id array r r-array;
+#X restore 9 20 pd render-template;
+#N canvas 762 554 408 186 r-array-template 0;
+#X obj 11 12 struct r-array float id symbol name float render float
+buffer float frame float dimenX float dimenY float FSAA float fullscreen
+float offsetX float offsetY float cursor symbol title array viewRGB
+viewRGB-array float lighting float shininess float fogmode float fog
+array viewing viewing-array array perspec viewing-array float stereo
+float stereoSep float stereoFoc float stereoLine;
+#X restore 9 43 pd r-array-template;
+#N canvas 0 50 450 300 viewing-array 0;
+#X obj 85 84 struct viewing-array float value symbol name;
+#X restore 9 84 pd viewing-array template;
+#N canvas 0 50 450 300 viewRGB-array 1;
+#X obj 85 84 struct viewRGB-array float R float G float B symbol name
+;
+#X restore 7 63 pd viewRGB-array template;
