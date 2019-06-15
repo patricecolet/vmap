@@ -184,6 +184,7 @@ proc ::patco::vmap::draw {w filename} {
 	ttk::notebook $w.n
 	
 	foreach { frame panel } { 
+	    r {set "Render" 1 20}
 	    media {media "Media" 1 20}
 	    tex {set "Texture" 0  10 media "Media" 1 20 fx "Texture Effect" 3 300}
 	    mat {set "Material" 0  10 param "Parameter" 1 200 tex "Texture" 2 50}  
@@ -197,6 +198,9 @@ proc ::patco::vmap::draw {w filename} {
 		patco::vmap::drawPane $w.n $w.n.$frame.pw $panel $frame
         if {$frame != "media"} {patco::vmap::drawComboSelect $w.n.$frame.pw.set $frame}
 	}
+################ Render Panel ################
+
+#    set render $w.n.render.pw.render
 ################ Media Panel ################
 
     set media $w.n.media.pw.media
