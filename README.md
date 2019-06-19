@@ -14,5 +14,4 @@ This project is unfinished yet, but shared to get advices and maybe some help.
 - mrpeach is used for resolving OSCx protocol (not used yet)
 - moocow is converting into strings for the Gem*:text objects (not used yet)
 
-Since Gem 0.94 is not working good yet, this project uses Gem 0.93 and opens other instances of pd for rendering previews.
-Using multiple gemwin might be also usefull for drawing the interface instead using tcl-tk.
+This opens other  pd instances for rendering previews, it's usefull for preventing crashes.
