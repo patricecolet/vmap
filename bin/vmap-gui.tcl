@@ -207,17 +207,17 @@ proc ::patco::vmap::draw {w filename} {
 	
 ##Media selector
     label $media.file -bg white -font little
-	foreach {button sender} {add madd del mdel clear mediaclear} {
-		ttk::button  $media.$button -text "$button" -width 4 \
+	foreach {button sender} {add madd addStream maddStream del mdel clear mediaclear} {
+		ttk::button  $media.$button -text "$button" -width 5 \
 		-command [list pdsend "$sender bang"]}
    	set vscroll $media.vscroll
     set canvas $media.c
   	scrollbar $vscroll               -command "$canvas yview"
-   	canvas $canvas -relief sunken -borderwidth 2 -height 600 -width 230\
+   	canvas $canvas -relief sunken -borderwidth 2 -height 600 -width 250\
                               -yscrollcommand "$vscroll set"
 							  
 #### Media Panel Geometry
-    foreach { wid col row colspan }  {file 0 0 3 c 0 2 3 add 0 1 1 del 1 1 1 clear 2 1 1 vscroll 3 2 1 } {
+    foreach { wid col row colspan }  {file 0 0 4 c 0 2 4 add 0 1 1 addStream 1 1 1 del 2 1 1 clear 3 1 1 vscroll 4 2 1 } {
 		grid $media.$wid -column $col -row $row -columnspan $colspan -sticky nsew }
 	
 ################ end media Panel ################
@@ -418,30 +418,7 @@ proc dropChecking {path dropped node} {
 }
  proc ::patco::vmap::popupMenu {w x y o e} {
 	set item [$w itemcget $e -data]
-	global settings
-
-#	pdsend "vmapgui-s obj get $o"	
-	puts $item
-
-	pdsend "objPopupMenu $item $x $y $o"		
-##	switch $item {
-	# TODO: menu button for adding objects
-		# root {
-			# tk_popup .vmapgui.objMenu $x $y
-			# }
-##		object {
-##			tk_popup .vmapgui.objMenu $x $y
-##			}
-##		surface {
-##			pdsend "vmapgui-s obj geo get $o"
-##			tk_popup .vmapgui.surfM $x $y
-##			}
-##		material {
-##			pdsend "vmapgui-s obj mat get $o"
-##			tk_popup .vmapgui.matM $x $y
-##			}
-##		}
-		
+	pdsend "objPopupMenu $item $x $y $o"				
  }
 
 proc ::patco::vmap::readObjectFile {w f} {
@@ -482,14 +459,17 @@ proc  ::patco::vmap::selectMedia {p w l id} {
 
 proc ::patco::vmap::mediaSettings {w id o tex label dimen type} {
     global settings
+	
+	foreach tag [$w.c find withtag rect] {
+	$w.c itemconfigure $tag  -fill #aaa
+	}
 	set wid [lindex $dimen 0];set hei [lindex $dimen 1];
-	##puts $o
-		set top [expr $o * 90 + 1]
-		set bottom [expr $o * 90 + 78]
+		set top [expr ($o - 1) * 90 + 1]
+		set bottom [expr ($o - 1) * 90 + 78]
 	    $w.c create rectangle 64 $top 245 [expr 78 + $top] \
-                    -fill white -tags "rect obj$o $id media$id $tex"
+                    -fill white -tags "rect obj$o $o media$id $tex $type"
 		$w.c create rectangle 0 $top 245 [expr 14 + $top] \
-                    -fill white -tags "rect obj$o $id media$id $tex"
+                    -fill white -tags "rect obj$o $o media$id $tex $type"
         $w.c create text  5 [expr 7 + $top] -text $label \
                     -font title -tags "obj$o media$id d $tex" -anchor w
 		$w.c create image  32 [expr 47 + $top] -image $id -tags "obj$o media$id d $tex"
@@ -511,9 +491,9 @@ proc ::patco::vmap::mediaSettings {w id o tex label dimen type} {
 		    set l [lindex [split $len ":"] 1]
 		    $w.c addtag $l withtag media$id
 		    $w.c create rectangle 0 $bottom 245 [expr 12 + $bottom] \
-                    -fill white -tags "cursor $id media$id $l $tex"
+                    -fill white -tags "cursor $o media$id $l $tex"
 		    $w.c create rectangle 0 $bottom 5 [expr 12 + $bottom] \
-                    -fill black -tags "handle h$id media$id $tex"
+                    -fill black -tags "handle h$o media$id $tex"
 			$w.c create text 110 [expr $top + 47] -text $len\
                     -font little -tags "obj$o media$id d $tex"
 			foreach {text ypos} [list $fps [expr $top + 65] \
@@ -523,67 +503,72 @@ proc ::patco::vmap::mediaSettings {w id o tex label dimen type} {
 			    spinbox $w.c.$o$text -from 0.00 -to $l.0 -increment 1 -width 4 \
 				 -font {Courier -10} \
 				-textvariable settings($o.$id$t) \
-			 	-command "::patco::vmap::sendvar media $id $t $o.$id "
-			    $w.c create window 206 $ypos -window $w.c.$o$text -tags "window  $id media$id"
-				$w.c create text 173 $ypos -text $t -font little
+			 	-command "::patco::vmap::sendvar media $o $t $o.$id "
+			    $w.c create window 206 $ypos -window $w.c.$o$text -tags "window  $o media$id"
+				$w.c create text 173 $ypos -text $t -font little -tags "media$id"
 				}
 			
 			set settings($o.${id}auto)  [lindex [split $auto ":"] 1]
 			checkbutton $w.c.$o$auto -text auto -variable settings($o.${id}auto) \
-			-command "::patco::vmap::sendvar media $id auto $o.$id " -bg white -font little
-			$w.c create window 139 [expr $top + 64] -window $w.c.$o$auto
-			$w.c create text 80 [expr $top + 67] -text frame: -font little
-			$w.c create text 95 [expr $top + 67] -tag curFrame$id -font little -anchor w
+			-command "::patco::vmap::sendvar media $o auto $o.$id " -bg white -font little
+			$w.c create window 139 [expr $top + 64] -window $w.c.$o$auto -tags "media$id"
+			$w.c create text 80 [expr $top + 67] -text frame: -font little -tags "media$id"
+			$w.c create text 95 [expr $top + 67] -tag curFrame$id -font little -anchor w -tags "media$id"
 			$w.c itemconfig curFrame$id -text 0
-		    bind $w.c <B1-Motion> "::patco::vmap::moveMediaCursor %W %x %y move"
-		    bind $w.c <ButtonRelease-1> "::patco::vmap::moveMediaCursor %W %x %y real"
+		    bind $w.c <B1-Motion> "::patco::vmap::moveMediaCursor %W %x %y move $o.$id"
+		    bind $w.c <ButtonRelease-1> "::patco::vmap::moveMediaCursor %W %x %y real 0"
 			}
         
-		bind $w.c <1> "::patco::vmap::bindMediaMenu $w.c %x %y $type"
+		bind $w.c <1> "::patco::vmap::bindMediaMenu $w.c %x %y"
 		$w.c configure -scrollregion "0 0 150 [expr $top + 90]"
 ##		pdsend "mediaThumbnails $photo;"
 
 }
-proc ::patco::vmap::bindMediaMenu {w x y type} {
+proc ::patco::vmap::bindMediaMenu {w x y} {
+	global settings 
 	set x [$w canvasx $x]
 	set y [$w canvasy $y]
 	foreach tag [$w find withtag rect] {
 	$w itemconfigure $tag  -fill #aaa
 	}
 	set found [$w find overlapping 0 $y 240 $y]
-	foreach item $found {
+	foreach item $found { puts [$w gettag $item]
 		if {[lindex [$w gettag $item] 0] == "rect"} {
+			set type [lindex [$w gettag $item] 5]
 			set id [lindex [$w gettag $item] 2]
 			set len [lindex [$w gettag $item] 4]
         	set pos [lindex [$w  coords h$id] 1]
 			pdsend "vmapgui-s media Sel  $id"
 			$w itemconfigure $item  -fill #fff 
 			$w itemconfigure [expr $item+1]  -fill #fff
-			if {$type==1} {
-			    pdsend "vmapgui-s media cursor h$id init $pos $len"
-			    pdsend "vmapgui-s media cursor h$id real bang"
-				}
-			}    
+			} 
+		if 	{[lindex [$w gettag $item] 0] == "cursor"} {
+			set settings(mCursor) $item
 		}
+	}
 }
-proc ::patco::vmap::moveMediaCursor {w x y c} {
-	set found [$w find overlapping 0 $y 240 $y]
-	foreach item $found {
-		if {[lindex [$w gettag $item] 0] == "cursor"} {
+proc ::patco::vmap::moveMediaCursor {w x y c d} {
+	global settings
+	switch $c {
+		move { if {$settings(mCursor)>0} {
+			set item $settings(mCursor)
 			set id h[lindex [$w gettag $item] 1]
         		set oldx [lindex [$w  coords $id] 0]
         		set y [lindex [$w  coords $id] 1]
 			set len [lindex [$w gettag $item] 3]
 			set frame [expr $len * $x / 240]
 			set motion [expr $x - $oldx]
-			if {$x < 0} {set motion 0}
-			if {$x > 240} {set motion 0}
-			switch $c { 
-				move { pdsend "vmapgui-s media cursor $id $frame $y $len"
-				$w move $id $motion 0}
-				real { pdsend "vmapgui-s media cursor $id real bang"}
+			if {$frame < $settings(${d}offset)} {
+				set motion 0
+				set frame $settings(${d}offset) }
+			if {$frame > $settings(${d}end)} {
+				set motion 0
+				set frame $e }
+			pdsend "vmapgui-s media cursor $id $frame $y $len"
+			$w move $id $motion 0
 			}
 		}
+		real { set settings(mCursor) -1}
 	}
 }
 
