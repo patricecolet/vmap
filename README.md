@@ -1,7 +1,7 @@
 # vmap
-Graphical Interface for PureData Gem external
+Graphical Interface for PureData-0.49.0 Gem-0.93.3  
 
-Dependences: Gem ggee hcs list-abs zexy mrpeach moocow
+Dependences: Gem>=0.93.3 ggee hcs list-abs zexy mrpeach moocow
 
 _videoMapper.pd_ is the main patch.
  
