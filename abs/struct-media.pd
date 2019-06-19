@@ -1,13 +1,13 @@
 #N struct media float id array m m-array;
-#N struct m-array float id symbol name float type symbol filename float
-width float height text mediaPrev array image image-array float length
-text video;
+#N struct m-array float id symbol uname symbol name float type symbol
+filename float width float height text mediaPrev array image image-array
+float length text video;
 #N struct image-array float id float bytes float colour-space float
 type float upsidedown float notowed;
 #N canvas 0 50 450 300 10;
 #N canvas 537 834 1099 243 media-data 0;
-#X scalar media 0 \; 0 nomedia 0 symbol 0 0 0 \; \; 0 0 0 0 0 0 \;
-\; \; \;;
+#X scalar media 0 \; 0 symbol nomedia 0 symbol 0 0 0 \; \; 0 0 0 0
+0 0 \; \; \; \;;
 #X restore 9 1 pd media-data;
 #N canvas 0 50 457 124 media-template 0;
 #X obj 104 56 struct media float id array m m-array;
@@ -15,7 +15,7 @@ type float upsidedown float notowed;
 #N canvas 762 554 408 186 m-array-template 0;
 #X obj 12 62 struct image-array float id float bytes float colour-space
 float type float upsidedown float notowed;
-#X obj 11 12 struct m-array float id symbol name float type symbol
-filename float width float height text mediaPrev array image image-array
-float length text video;
+#X obj 11 12 struct m-array float id symbol uname symbol name float
+type symbol filename float width float height text mediaPrev array
+image image-array float length text video;
 #X restore 9 43 pd m-array-template;

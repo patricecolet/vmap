@@ -1,10 +1,16 @@
-#N canvas 0 50 450 300 10;
-#N canvas 762 797 439 150 mod-array-template 1;
-#X obj 25 19 struct mod-array float id symbol name float lfo float
+#N struct modul float id array mod mod-array;
+#N struct mod-array float id symbol uname symbol name float lfo float
 freq float amp symbol waveshape symbol OSC text param text midi;
+#N canvas 0 50 450 300 10;
+#N canvas 762 797 439 150 mod-array-template 0;
+#X obj 25 19 struct mod-array float id symbol uname symbol name float
+lfo float freq float amp symbol waveshape symbol OSC text param text
+midi;
 #X restore 9 43 pd mod-array-template;
 #N canvas 0 50 457 124 modul-template 0;
 #X obj 104 56 struct modul float id array mod mod-array;
 #X restore 9 20 pd modul-template;
 #N canvas 537 834 1099 243 modul-data 0;
+#X scalar modul 0 \; 0 symbol modul000 0 0.01 0 sine symbol \; \; \;
+\;;
 #X restore 9 1 pd modul-data;

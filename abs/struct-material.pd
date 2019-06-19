@@ -1,13 +1,14 @@
 #N struct material float id array mat mat-array;
-#N struct mat-array float id float texID symbol name float alphaBlend
-array alpha alpha-array array RGB rgb-param array RGBenable float;
+#N struct mat-array float id float texID symbol uname symbol name float
+alphaBlend array alpha alpha-array array RGB rgb-param array RGBenable
+float;
 #N struct alpha-array float enable float auto float blend;
 #N struct rgb-param symbol name float r float g float b float a;
 #N struct float float y;
 #N canvas 0 50 450 300 10;
 #N canvas 537 806 1099 243 material-data 0;
-#X scalar material 0 \; 0 1 material000 0 \; 0 0 0 \; \; none 0 0 0
-0 \; \; 0 \; 0 \; 0 \; 0 \; 0 \; 0 \; \; \;;
+#X scalar material 0 \; 0 0 symbol material000 0 \; 0 0 0 \; \; none
+0 0 0 0 \; \; 0 \; 0 \; 0 \; 0 \; 0 \; 0 \; \; \;;
 #X restore 8 8 pd material-data;
 #N canvas 737 157 490 129 material-template 0;
 #X obj 11 12 struct material float id array mat mat-array;
@@ -15,9 +16,9 @@ array alpha alpha-array array RGB rgb-param array RGBenable float;
 #N canvas 694 604 490 212 mat-array-template 0;
 #X obj 13 57 struct alpha-array float enable float auto float blend
 ;
-#X obj 12 7 struct mat-array float id float texID symbol name float
-alphaBlend array alpha alpha-array array RGB rgb-param array RGBenable
-float;
+#X obj 12 7 struct mat-array float id float texID symbol uname symbol
+name float alphaBlend array alpha alpha-array array RGB rgb-param array
+RGBenable float;
 #X restore 8 51 pd mat-array-template;
 #N canvas 3 456 450 300 rgb-param-template 0;
 #X obj 23 31 struct rgb-param symbol name float r float g float b float
