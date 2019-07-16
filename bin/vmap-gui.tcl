@@ -88,7 +88,7 @@ proc ::patco::vmap::drawComboSelect {w name} {
 		-textvariable "::patco::vmap::sendcbox $w.cbox $name Return"
 	bind $w.cbox <<ComboboxSelected>> "::patco::vmap::sendcbox %W $name Sel"
 	foreach B {add del copy paste clear} {
-	ttk::button $w.$B -text "$B" -width 5 -command [list pdsend "$name$B bang"]}
+	ttk::button $w.$B -text "$B" -width 5 -command [list pdsend "vmapgui-s $name $B bang"]}
 	
 	checkbutton $w.render -text "Render" -variable settings(${name}Render) -width 5 \
 		-command "::patco::vmap::sendvar $name view Render $name"
@@ -160,11 +160,88 @@ proc ::patco::vmap::colorPanel {p i} {
 			::patco::vmap::sendscale matRgbScale $p $c [expr [lindex $rgb $id]/ 65536.0]}}
 }
 
-proc ::patco::vmap::treeSel {w i} {
-	set sel [$w selection]
-	set tags [$w item $sel -tags]
-    pdsend "vmapgui-s tree $i $tags" 
+
+proc ::patco::colorpanel {w p pw t v d} {
+	labelframe $w -text $t -fg black
+	grid [button $w.button \
+		-command "::patco::colorpanelBG $w.button $p $pw $v"  \
+		-bg $d -width 5] -sticky nesw -row 0 -column 1
+	grid [button $w.but -bg azure -width 1 \
+		-command [list pdsend "vmapgui-s mod $p $pw $t" ]] -sticky nesw -row 0 -column 0
 }
+proc ::patco::colorpanelBG {w p pw v} {
+	global settings
+	set settings($p$pw$v) [tk_chooseColor]
+	$w configure -bg $settings($p$pw$v)
+	pdsend "vmapgui-s $p $pw $v [winfo rgb . $settings($p$pw$v)]"
+}
+proc ::patco::checkbutton {w p pw cb n args} {
+	global settings
+	labelframe $w -text $n -fg black
+	ttk::checkbutton $w.$cb
+	foreach {p a} $args {
+		$w.$cb configure $p $a	
+	}  
+	
+	$w.$cb configure -variable settings($p$pw$n) -command [list ::patco::vmap::sendsbox $p $pw $n]
+	grid $w.$cb -sticky nesw -row 0 -column 1
+	grid [button $w.but -bg azure -width 1 -command [list pdsend "vmapgui-s mod $p $pw $n" ]] -sticky nesw -row 0 -column 0	
+}
+proc ::patco::menubutton {w p n args} {
+	labelframe $w -text $n -fg black
+	ttk::menubutton $w.mb
+	foreach {p a} $args {
+		$w.mb configure $p $a	
+	}
+	grid $w.mb -sticky nesw -row 0 -column 1
+	grid [button $w.but -bg azure -width 1 -command [list pdsend "vmapgui-s mod $p $n" ]] -sticky nesw -row 0 -column 0	
+}
+proc ::patco::spinbox {w p pw n args} {
+	global settings
+	labelframe $w -text $n -fg black
+	ttk::spinbox $w.spin  -command [list ::patco::vmap::sendsbox $p $pw $n]
+	foreach {o a} $args {
+		$w.spin configure $o $a 
+	}
+	$w.spin configure -textvariable settings($p$pw$n)
+	grid $w.spin -sticky nesw -row 0 -column 1
+	grid [button $w.but -bg azure -width 1 -command [list pdsend "vmapgui-s mod $p $pw $n" ]] -sticky nesw -row 0 -column 0	
+}
+proc ::patco::spinbox2 {w p pw n s1 s2 args} {
+	global settings
+	labelframe $w -text $n -fg black
+	ttk::spinbox $w.spin -command [list ::patco::vmap::sendsboxes $p $pw $n $s1]
+	ttk::spinbox $w.spin2 -command [list ::patco::vmap::sendsboxes $p $pw $n $s2]
+	foreach {o a} $args {
+		$w.spin configure $o $a
+		$w.spin2 configure $o $a
+	}
+	$w.spin configure -textvariable settings($p$pw$n$s1)
+	$w.spin2 configure -textvariable settings($p$pw$n$s2)
+	grid $w.spin -sticky nesw -row 0 -column 1
+	grid $w.spin2 -sticky nesw -row 0 -column 2
+	grid [button $w.but -bg azure -width 1 -command [list pdsend "vmapgui-s mod $p $pw $n" ]] -sticky nesw -row 0 -column 0	
+}
+proc ::patco::spinbox3 {w p pw n s1 s2 s3 args} {
+	global settings
+	labelframe $w -text $n -fg black
+	ttk::spinbox $w.spin  -command [list ::patco::vmap::sendsboxes $p $pw $n $s1]
+	ttk::spinbox $w.spin2 -command [list ::patco::vmap::sendsboxes $p $pw $n $s2]
+	ttk::spinbox $w.spin3 -command [list ::patco::vmap::sendsboxes $p $pw $n $s3]
+	foreach {o a} $args {
+		$w.spin configure $o $a
+		$w.spin2 configure $o $a
+		$w.spin3 configure $o $a
+	}
+	$w.spin configure -textvariable settings($p$pw$n$s1)
+	$w.spin2 configure -textvariable settings($p$pw$n$s2)
+	$w.spin3 configure -textvariable settings($p$pw$n$s3)
+	grid $w.spin -sticky nesw -row 0 -column 1
+	grid $w.spin2 -sticky nesw -row 0 -column 2
+	grid $w.spin3 -sticky nesw -row 0 -column 3
+	grid [button $w.but -bg azure -width 1 -command [list pdsend "vmapgui-s mod $p $pw $n" ]] -sticky nesw -row 0 -column 0	
+}
+
 ### topwindow widget
 proc ::patco::vmap::draw {w filename} {
 	global settings
@@ -180,18 +257,19 @@ proc ::patco::vmap::draw {w filename} {
 			"newFile" "openFile" "saveFile" "saveAsFile" "closeFile"} {
 		$m.file add command -label $item -command "::patco::vmap::menusend $command" }
 	$m.help add command -label "About vmap" -command "readme"
-########################## WIDGETS #########
+########################## Notebook Panels and Paned windows #########
 	ttk::notebook $w.n
 	
 	foreach { frame panel } { 
-	    r {set "Render" 1 20}
+	    win {set "Render" 0 10 layout "Layout" 1 20 lighting "Lighting" 2 30 camera Camera 3 40 texunit Texunit 4 40}
 	    media {media "Media" 1 20}
-	    tex {set "Texture" 0  10 media "Media" 1 20 fx "Texture Effect" 3 300}
+	    tex {set "Texture" 0  10 media "Media" 1 20 fx "Texture Effect" 3 350}
 	    mat {set "Material" 0  10 param "Parameter" 1 200 tex "Texture" 2 50}  
 		obj {set "Object" 0  10 tree "Tree" 1 100 geo "Surface" 2 100 trans "Transform" 3 100} 
+		map {set "Map"  0  10 vertex "Vertex Position" 1 20 texCoord "Texture Coordinates" 2 20 \
+			shade "Shading" 3 20 framebuffer "Frame Buffer" 4 20}
 		scn {set "Scene" 0  10 maps "Maps" 1  10 obj "Object" 2 220 \
 		 lights "Lights" 3 10 keyframes "Keyframes" 4 200} 
-		map {set "Map"  0  10 vert "Vertex Position" 1 20 shade "Shader size" 2 220}
     }   { 
 	    set $frame [ttk::frame $w.n.$frame]
 		set ${frame}Pw [panedwindow $w.n.$frame.pw -orient vertical -sashrelief sunken]
@@ -200,7 +278,161 @@ proc ::patco::vmap::draw {w filename} {
 	}
 ################ Render Panel ################
 
-#    set render $w.n.render.pw.render
+	
+    set layout $w.n.win.pw.layout
+    set lighting $w.n.win.pw.lighting
+    set camera $w.n.win.pw.camera
+    set texunit $w.n.win.pw.texunit
+	
+################ Map Panel ################
+
+    set framebuffer $w.n.map.pw.framebuffer
+	
+##### spinboxes
+	foreach {p pw sb n width i f t col row} {
+			win layout stereoSep StereoSep 6 1 -99 99 1 2 			
+			win lighting shininess Shininess 4 0.01 0 1 0 2
+			win lighting fog Fog 4 0.01 0 1 0 1
+			win layout frame Frame 3 1 1 512 1 1 
+			map shade top Top 4 0.01 0 1 0 0  
+			map shade left Left 4 0.01 0 1 1 0  
+			map shade right Right 4 0.01 0 1 2 0  
+			map shade bottom Bottom 4 0.01 0 1 3 0  
+		} {
+		set settings($p$pw$n) $f 
+		::patco::spinbox $w.n.$p.pw.$pw.$sb $p $pw $n -width $width -increment $i -from $f -to $t
+		grid $w.n.$p.pw.$pw.$sb -row $row -column $col -sticky news
+	}
+
+	foreach {p pw sp n s1 s2 width i f t col row colspan} {  
+			win layout dimen Dimen X Y 4 1 64 8096 0 0 1
+			win layout offset Offset X Y 4 1 0 8096 1 0 2
+			map vertex topleft TopLeft X Y 6 0.01 -99.99 99.99 0 0 1
+			map vertex topcenter TopCenter X Y 6 0.01 -99.99 99.99 1 0 1
+			map vertex topright TopRight X Y 6 0.01 -99.99 99.99 2 0 1
+			map vertex centerleft CenterLeft X Y 6 0.01 -99.99 99.99 0 1 1
+			map vertex center Center X Y 6 0.01 -99.99 99.99 1 1 1
+			map vertex centerright CenterRight X Y 6 0.01 -99.99 99.99 2 1 1
+			map vertex bottomleft BottomLeft X Y 6 0.01 -99.99 99.99 0 2 1
+			map vertex bottomcenter BottomCenter X Y 6 0.01 -99.99 99.99 1 2 1
+			map vertex bottomright BottomRight X Y 6 0.01 -99.99 99.99 2 2 1
+			map texCoord topleft TopLeft X Y 4 1 0 8096 0 0 1
+			map texCoord topright TopRight X Y 4 1 0 8096 1 0 1
+			map texCoord curveleft BottomLeft X Y 4 1 0 8096 0 1 1
+			map texCoord curveright BottomRight X Y 4 1 0 8096 1 1 1
+			map framebuffer dimen Dimen X Y 4 1 64 8096 0 1 1
+		} {
+		set settings($p$pw$n$s1) $f
+		set settings($p$pw$n$s2) $f
+		::patco::spinbox2 $w.n.$p.pw.$pw.$sp $p $pw $n $s1 $s2 -width $width -increment $i -from $f -to $t
+		grid $w.n.$p.pw.$pw.$sp -row $row -column $col -sticky nesw -columnspan $colspan
+	}	
+
+	foreach {p pw sp n s1 s2 s3 width i f t col row colspan} {  
+			win camera view Camera X Y Z 6 0.01 -99 99 0 0 1 
+			win camera target Target X Y Z 6 0.01 -99 99 0 1 1
+			win camera up Up X Y Z 6 0.01 -99 99 0 2 1
+			win camera leftRightBottom LeftRightBottom Left Right Bottom  6 0.01 -99 99 0 3 1
+			win camera topFrontBack TopFrontBack Top Front Back  6 0.01 -99 99 0 4 1
+			map framebuffer leftRightBottom LeftRightBottom Left Right Bottom  6 0.01 -99 99 0 2 2
+			map framebuffer topFrontBack TopFrontBack Top Front Back  6 0.01 -99 99 0 3 2
+			map framebuffer scale Scale X Y Z 6 0.01 -99 99 0 4 2
+			map framebuffer translate Translate X Y Z 6 0.01 -99 99 0 5 2
+			map framebuffer rotate Rotate X Y Z 6 0.01 -99 99 0 6 2
+		} {
+		set settings($p$pw$n$s1) $f
+		set settings($p$pw$n$s2) $f
+		set settings($p$pw$n$s3) $f
+		::patco::spinbox3 $w.n.$p.pw.$pw.$sp $p $pw $n $s1 $s2 $s3 -width $width -increment $i -from $f -to $t
+		grid $w.n.$p.pw.$pw.$sp -row $row -column $col -sticky nesw -columnspan $colspan
+	}	
+##### checkbuttons	
+	foreach {p pw cb n col row colspan} { 
+			win layout fullscreen Fullscreen 3 0 1
+			win layout buffer Buffer 2 1 1
+			win layout cursor Cursor 3 1 1
+			win layout stereoLine StereoLine 2 2 1
+			win layout topmost Topmost 3 2 1
+			win lighting lighting Lighting 1 2 1
+			win lighting worldlight Worldlight 2 2 1
+			map framebuffer rectangle Rectangle 2 0 1} {
+		set settings($p$pw$n) 0
+		::patco::checkbutton $w.n.$p.pw.$pw.$cb $p $pw $cb $n
+		grid $w.n.$p.pw.$pw.$cb -column $col -row $row -columnspan $colspan -sticky nesw
+	}
+
+##### menubuttons		
+	foreach {p pw mb menu text col row width colspan} {   
+			win layout fsaamb fsaa "Anti Aliasing" 0 1 10 1
+			win layout stereomb stereo "Stereo Mode" 0 2 10 1
+			win lighting fogmb fogmod "Fog Mode" 0 0 6 1
+			map framebuffer typemb type "Type" 0 0 6 1
+			map framebuffer formatmb format "Format" 1 0 6 1
+			} {
+		::patco::menubutton $w.n.$p.pw.$pw.$mb $p $menu -width 10 -menu $w.n.$p.pw.$pw.$menu -text $text
+		grid $w.n.$p.pw.$pw.$mb -row $row -column $col -columnspan $colspan -sticky sw
+	}
+	
+	menu $layout.fsaa -tearoff 0
+	set settings(winlayoutFSAA) 0
+	for {set i 0} {$i < 8} { incr i } { 
+		$layout.fsaa add radiobutton -label $i \
+			-command [list ::patco::vmap::sendsbox win layout FSAA] \
+			-variable settings(winlayoutFSAA)
+	}
+		
+	menu $layout.stereo -tearoff 0	
+	foreach { m v }  {off 0 "2 screens" 1 "Red / Green" 2 "Crystal Glass" 3} {
+		$layout.stereo add radiobutton -label $m -value $v \
+			-command [list ::patco::vmap::sendsbox win layout Stereo] \
+			-variable settings(winlayoutStereo) 
+	}
+
+	menu $lighting.fogmod -tearoff 0
+	foreach { m v }  {off 0 Linear 1 Exp 2 "Exp^2" 3} {
+		$lighting.fogmod add radiobutton -label $m -value $v \
+			-command [list ::patco::vmap::sendsbox win lighting FogMode] \
+			-variable settings(winlightingFogMode)  }
+
+	menu $framebuffer.type -tearoff 0
+	foreach { m v }  {BYTE 0 INT 1 FLOAT 2} {
+		$framebuffer.type add radiobutton -label $m -value $v \
+			-command [list ::patco::vmap::sendvar map Type Type win] \
+			-variable settings(mapframebufferType) }
+
+	menu $framebuffer.format -tearoff 0
+	foreach { m v }  {RGB 0 YUV 1 RGBA 2 RGB32 3} {
+		$framebuffer.format add radiobutton -label $m -value $v \
+			-command [list ::patco::vmap::sendvar map Format Format map] \
+			-variable settings(mapframebufferFormat) }
+		
+		
+##### color panels	
+	foreach {p pw wid name v c row col} { 
+		win lighting fogColor "Fog Color" FogColor black 0 1
+		win lighting color "Color" Color black 0 2
+		win lighting ambient "Ambient" Ambient black 1 1
+		win lighting specular "Specular" Specular black 1 2
+		map framebuffer color "Color" Color black 1 1
+		} {
+		patco::colorpanel $w.n.$p.pw.$pw.$wid $p $pw $name $v $c	
+		grid $w.n.$p.pw.$pw.$wid -row $row -column $col -sticky sw 	
+	}	
+		
+	
+#### texunit Paned window
+	menu $texunit.unit
+	menu $texunit.media
+	menu $texunit.texture
+	menu $texunit.scene
+	menu $texunit.map
+	for {set i 1} {$i <= 15} { incr i } { 
+		menu $texunit.unit$i
+		$texunit.unit add cascade -menu $texunit.unit$i -label $i
+		foreach m {media texture scene map} {
+			$texunit.unit$i add cascade -menu $texunit.$m -label $m}
+	}
+	grid [ttk::menubutton $texunit.mb -menu $texunit.unit -text "Select" ]    
 ################ Media Panel ################
 
     set media $w.n.media.pw.media
@@ -212,7 +444,7 @@ proc ::patco::vmap::draw {w filename} {
 		-command [list pdsend "$sender bang"]}
    	set vscroll $media.vscroll
     set canvas $media.c
-  	scrollbar $vscroll               -command "$canvas yview"
+  	scrollbar $vscroll -command "$canvas yview"
    	canvas $canvas -relief sunken -borderwidth 2 -height 600 -width 250\
                               -yscrollcommand "$vscroll set"
 							  
@@ -300,8 +532,9 @@ proc ::patco::vmap::draw {w filename} {
 ##Object Treeview
 	set objTree [Tree $object.view -dropenabled 1 -dragenabled 1 -dragevent 1 -dropcmd dropTreeCmd  -droptypes { 
         TREE_NODE    {copy {} move {} link {}} 
-    } -height 25 -width 30 ]
+    } -height 25 -width 30 -selectcommand treeMouseBind]
 	$objTree bindArea <KeyPress> "treeKeyBind %K"
+##	$objTree bindText <1> "treeMouseBind"
    	set othScroll $object.hscroll
    	set otvScroll $object.vscroll
   	scrollbar $othScroll -orient horiz -command "$objTree xview"
@@ -326,7 +559,11 @@ proc ::patco::vmap::draw {w filename} {
 	ttk::labelframe $objGeo.param
 	
 ## Object Transform
-#    grid $w.n.obj.pw.trans	
+
+	set objTrans $w.n.obj.pw.trans
+
+    grid [ttk::label $objTrans.label -text "none"]	
+	ttk::labelframe $objTrans.param
 ###########################		
 ################ Map Panel 
 ###########################
@@ -341,12 +578,40 @@ proc ::patco::vmap::draw {w filename} {
 
 #############################################################
 ## Procedures used by widgets and pd callback patch
+
+proc ::patco::vmap::treeSel {w i} {
+	set sel [$w selection]
+	set tags [$w item $sel -tags]
+    pdsend "vmapgui-s tree $i $tags" 
+}
+
+ proc ::patco::vmap::popupMenu {w x y o e} {
+	set item [$w itemcget $e -data]
+	pdsend "objPopupMenu $item $x $y $o"				
+ }
+
+
+proc ::patco::vmap::objTree {w id} {
+	$w delete [$w nodes root] 
+	$w insert end root objects -text "Objects" -image [Bitmap::get Folder] -open 1 -data root
+	$w bindText <3> "::patco::vmap::popupMenu $w %X %Y $id"
+	pdsend "objectTreeDone bang"
+}
  proc treeKeyBind {t} {
     set objTree .vmapgui.n.obj.pw.tree.view
     set d [lindex [$objTree selection get] 0] 
 	set s [$objTree itemcget $d -data]
 	pdsend "vmapgui-s object bind $t $s"
     puts [list $t $s]
+}
+ proc treeMouseBind {w s} {
+	if {$s != ""} {
+		set l [$w itemcget $s -data]
+		set node [lindex $l 0]
+		set t [lindex $l 1]
+		pdsend "vmapgui-s object bind mouse $t $s"
+		puts [list $s $l $node $t]
+	}
 } 
  proc dropTreeCmd {treewidget drag_source lDrop op dataType data} {
 	set mode [lindex $lDrop 0]
@@ -416,10 +681,6 @@ proc dropChecking {path dropped node} {
 	}
 	
 }
- proc ::patco::vmap::popupMenu {w x y o e} {
-	set item [$w itemcget $e -data]
-	pdsend "objPopupMenu $item $x $y $o"				
- }
 
 proc ::patco::vmap::readObjectFile {w f} {
 	set filetmp [read [open $f]]
@@ -586,6 +847,14 @@ proc ::patco::vmap::sendcbox {w b k} {
 proc ::patco::vmap::sendvar {b k v s} {
         global settings
 	pdsend "vmapgui-s $b $k $v $settings($s$v)"
+}
+proc ::patco::vmap::sendsbox {p pw n } {
+        global settings
+	pdsend "vmapgui-s $p $pw $n $settings($p$pw$n)"
+}
+proc ::patco::vmap::sendsboxes {p pw n s } {
+        global settings
+	pdsend "vmapgui-s $p $pw $n $s $settings($p$pw$n$s)"
 }
 
 proc ::patco::vmap::sendscale {b k v p} {
