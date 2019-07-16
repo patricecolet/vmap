@@ -1,0 +1,36 @@
+#N canvas 410 53 206 120 10;
+#N canvas 405 296 552 223 map-array-template 0;
+#X obj 11 12 struct map-array float id symbol uname symbol name float
+Set array vertex vertex-array array texCoord texCoord-array array shade
+shade-array array framebuffer framebuffer-array;
+#X restore 8 51 pd map-array-template;
+#N canvas 1221 143 445 209 vertex-template 0;
+#X obj 27 15 struct vertex-array float TopLeftX float TopLeftY float
+TopCenterX float TopCenterY float TopRightX float TopRightY float CenterLeftX
+float CenterLeftY float CenterX float CenterY float CenterRightX float
+CenterRightY float BottomLeftX float BottomLeftY float BottomCenterX
+float BottomCenterY float BottomRightX float BottomRightY;
+#X restore 6 70 pd vertex-template;
+#N canvas 814 326 445 209 texCoord-template 0;
+#X obj 27 15 struct texCoord-array float TopLeftX float TopLeftY float
+TopRightX float TopRightY float BottomLeftX float BottomLeftY float
+BottomRightX float BottomRightY;
+#X restore 7 88 pd texCoord-template;
+#N canvas 457 324 427 138 maps-template 0;
+#X obj 11 12 struct maps float id array map map-array;
+#X restore 8 30 pd maps-template;
+#N canvas 362 399 1099 243 maps-data 0;
+#X restore 8 8 pd maps-data;
+#N canvas 554 345 450 300 shade-array-template 0;
+#X obj 15 30 struct shade-array float Top float Left float Right float
+Bottom;
+#X restore 7 108 pd shade-array-template;
+#N canvas 416 315 450 300 framebuffer-array-template 0;
+#X obj 10 48 struct framebuffer-array float type float format float
+rectangle float DimenX float DimenY float colorR float colorG float
+colorB float LeftRightBottomLeft float LeftRightBottomRight float LeftRightBottomBottom
+float TopFrontBackTop float TopFrontBackFront float TopFrontBackBack
+float ScaleX float ScaleY float ScaleZ float TranslateX float TranslateY
+float TranslateZ float RotateX float RotateY float RotateZ float ColorR
+float ColorG float ColorB;
+#X restore 7 128 pd framebuffer-array-template;

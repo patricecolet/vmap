@@ -1,0 +1,13 @@
+#N canvas 346 457 450 300 10;
+#X obj 109 68 inlet;
+#X obj 319 72 route set;
+#X msg 210 165 \; SYS_GUI set settings(\$1) \$2;
+#X obj 319 41 r \$1-r;
+#X obj 109 179 s \$1-r;
+#X obj 210 108 list prepend \$1;
+#X obj 210 43 r \$1-s;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 3 0 1 0;
+#X connect 5 0 2 0;
+#X connect 6 0 5 0;

@@ -1,28 +1,56 @@
+#N struct render float id text texunit array win win-array;
+#N struct win-array float id symbol uname symbol name float render
+array layout layout-array array lighting lighting-array array camera
+camera-array;
+#N struct layout-array float Topmost float Buffer float Frame float
+DimenX float DimenY float FSAA float Fullscreen float OffsetX float
+OffsetY float Cursor float Stereo float StereoSep float StereoFoc float
+StereoLine;
+#N struct lighting-array float Lighting float Worldlight float Shininess
+float FogMode float Fog float FogColorR float FogColorG float FogColorB
+float ColorR float ColorG float ColorB float AmbientR float AmbientG
+float AmbientB float SpecularR float SpecularG float SpecularB;
+#N struct camera-array float CameraX float CameraY float CameraZ float
+TargetX float TargetY float TargetZ float UpX float UpY float UpZ float
+LeftRightBottomLeft float LeftRightBottomRight float LeftRightBottomBottom
+float TopFrontBackTop float TopFrontBackFront float TopFrontBackBack
+;
 #N canvas 1198 163 450 300 10;
 #N canvas 537 834 1099 243 render-data 0;
+#X scalar render 0 \; none nomedia \\\; none nomedia \\\; none nomedia
+\\\; none nomedia \\\; none nomedia \\\; none nomedia \\\; none nomedia
+\\\; none nomedia \\\; none nomedia \\\; none nomedia \\\; none nomedia
+\\\; none nomedia \\\; none nomedia \\\; none nomedia \\\; none nomedia
+\\\; none nomedia \\\; \; 0 render000 render000 0 \; 1 0 0 512 512
+0 0 0 0 0 0 0 0 0 \; \; 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \; \; 1 1
+1 0 0 4 0 0 0 0 0 0 0 0 0 \; \; \;;
 #X restore 9 1 pd render-data;
-#N canvas 0 50 457 124 render-template 1;
-#X obj 104 56 struct render float id text texunit array r r-array;
-#X restore 9 20 pd render-template;
-#N canvas 762 554 408 186 r-array-template 0;
-#X obj 11 12 struct r-array float render symbol uname symbol name float
-topmost float buffer float frame float dimenX float dimenY float FSAA
-float fullscreen float offsetX float offsetY float cursor array color
-viewRGB-array array ambient viewRGB-array array specular viewRGB-array
-float lighting float worldlight float shininess float fogmode float
-fog array fogColor viewRGB-array array viewing viewing-array array
-perspec perspec-array float stereo float stereoSep float stereoFoc
-float stereoLine;
-#X restore 9 43 pd r-array-template;
-#N canvas 0 50 450 300 viewing-array 0;
-#X obj 85 84 struct viewing-array float X float Y float Z float targetX
-float targetY float targetZ float upX float upY float upZ;
-#X restore 9 84 pd viewing-array template;
-#N canvas 0 50 450 300 viewRGB-array 0;
-#X obj 85 84 struct viewRGB-array float R float G float B symbol name
+#N canvas 0 50 457 124 render-template 0;
+#X obj 104 56 struct render float id text texunit array win win-array
 ;
-#X restore 7 63 pd viewRGB-array template;
-#N canvas 0 50 450 300 perspec-array 0;
-#X obj 69 63 struct perspec-array float left float right float bottom
-float top float front float back;
-#X restore 10 104 pd perspec-array template;
+#X restore 9 20 pd render-template;
+#N canvas 738 467 408 186 win-array-template 1;
+#X obj 11 12 struct win-array float id symbol uname symbol name float
+render array layout layout-array array lighting lighting-array array
+camera camera-array;
+#X restore 9 39 pd win-array-template;
+#N canvas 517 103 450 300 layout-array-template 0;
+#X obj 33 26 struct layout-array float Topmost float Buffer float Frame
+float DimenX float DimenY float FSAA float Fullscreen float OffsetX
+float OffsetY float Cursor float Stereo float StereoSep float StereoFoc
+float StereoLine;
+#X restore 9 58 pd layout-array-template;
+#N canvas 451 30 450 300 lighting-array-template 0;
+#X obj 34 100 struct lighting-array float Lighting float Worldlight
+float Shininess float FogMode float Fog float FogColorR float FogColorG
+float FogColorB float ColorR float ColorG float ColorB float AmbientR
+float AmbientG float AmbientB float SpecularR float SpecularG float
+SpecularB;
+#X restore 9 77 pd lighting-array-template;
+#N canvas 405 380 450 300 camera-array-template 1;
+#X obj 71 66 struct camera-array float CameraX float CameraY float
+CameraZ float TargetX float TargetY float TargetZ float UpX float UpY
+float UpZ float LeftRightBottomLeft float LeftRightBottomRight float
+LeftRightBottomBottom float TopFrontBackTop float TopFrontBackFront
+float TopFrontBackBack;
+#X restore 9 96 pd camera-array-template;
